@@ -3,7 +3,7 @@ import "./App.css";
 
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import Admin from "./pages/Admin/Admin.jsx";
+
 import Analytics from "./pages/Analytics/Analytics.jsx";
 import Settings from "./pages/Settings/Settings.jsx";
 import Appearance from "./pages/Appearance/Appearance.jsx";
@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route element={<Home />} path="/" />
         <Route element={<RootLayout />} path="/">
-          <Route index element={<Admin />} path="/admin" />
+          <Route index element={<Links />} path="/admin" />
           <Route element={<Appearance />} path="appearance" />
           <Route element={<Analytics />} path="analytics" />
           <Route element={<Settings />} path="settings" />

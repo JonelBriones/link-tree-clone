@@ -1,0 +1,55 @@
+.create-link-container {
+  //   margin-top: 2rem;
+  border-radius: 20px;
+  border: 2px solid black;
+  padding: 1rem;
+  .create-link-cancel-btn {
+    display: flex;
+    justify-content: right;
+  }
+  .create-link {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .create-link-cancel-btn {
+      display: flex;
+      justify-content: right;
+      align-items: center;
+    }
+    h3 {
+      font-size: 1.25rem;
+    }
+    form {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      gap: 1rem;
+
+      input {
+        width: 100%;
+        border: none;
+        background-color: #d9d9d9;
+        border-radius: 10px;
+        padding: 0.75rem;
+        font-size: 1.05rem;
+      }
+      button {
+        width: 80px;
+        color: #8f8f8f;
+      }
+    }
+
+    .list-apps-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: left;
+      .list-apps {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  }
+}

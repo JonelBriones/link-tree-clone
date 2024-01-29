@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./Admin.scss";
+import "./NavbarAdmin.scss";
 import { FaBars } from "react-icons/fa6";
 import { SiLinktree } from "react-icons/si";
 import { IoShapesOutline } from "react-icons/io5";
@@ -70,7 +70,7 @@ const NavbarAdmin = () => {
           <li className="nav-btns">
             <button>
               <AiFillThunderbolt size={"1.5rem"} />
-              <span>Change Plan</span>
+              <h3>Try Pro for free</h3>
             </button>
           </li>
           <li className="nav-btns">
@@ -80,7 +80,7 @@ const NavbarAdmin = () => {
             </button>
           </li>
           <li className="nav-btns">
-            <button>P</button>
+            <button className="profile">P</button>
           </li>
         </ul>
       </nav>
