@@ -13,15 +13,31 @@ let socialMediaList = [
   "youtube",
 ];
 
-const AddLink = (props) => {
-  const { toggleCreateURL, cancelToggle } = props;
-
+const AddLink = ({
+  onChangeHandler,
+  link,
+  onAppPlaceholder,
+  linkValid,
+  onSubmitHandler,
+}) => {
   return (
     <div className="create-link">
       <h3>Enter URL</h3>
       <form onSubmit={onSubmitHandler}>
-        <input type="text" placeholder="URL" />
-        <button className="circle-btn">Add</button>
+        <input
+          type="text"
+          placeholder="URL"
+          value={link}
+          name="link"
+          onChange={onChangeHandler}
+        />
+        <button
+          type="submit"
+          className={linkValid ? "circle-btn isValid" : "circle-btn"}
+          disabled={!linkValid}
+        >
+          Add
+        </button>
       </form>
 
       <div className="list-apps-container">
@@ -29,7 +45,10 @@ const AddLink = (props) => {
         <div className="list-apps">
           {socialMediaList.map((social) => (
             <div key={social}>
-              <SocialIcon network={social} />
+              <SocialIcon
+                network={social}
+                onClick={() => onAppPlaceholder(`https://www.${social}.com/@`)}
+              />
             </div>
           ))}
         </div>

@@ -31,7 +31,7 @@ nav {
       width: 120px;
     }
 
-    a.links:hover {
+    a:nth-child(n + 2):nth-child(-n + 5):hover {
       background-color: #ede7e3;
     }
 
@@ -45,10 +45,6 @@ nav {
       font-weight: 500;
     }
     .nav-btns {
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
-      // border: 2px solid red;
       width: fit-content;
       margin-inline: 0.5rem;
       min-width: fit-content;

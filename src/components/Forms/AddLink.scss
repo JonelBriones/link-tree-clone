@@ -34,8 +34,14 @@
         font-size: 1.05rem;
       }
       button {
+        cursor: pointer;
         width: 80px;
         color: #8f8f8f;
+        transition: color 200ms ease-in-out;
+      }
+      .isValid {
+        background-color: green;
+        color: #fff;
       }
     }
 
