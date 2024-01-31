@@ -29,6 +29,23 @@
         }
       }
     }
+    section {
+      margin-left: 1rem;
+      .links-edit-container {
+        margin-top: 1rem;
+
+        .link-container {
+          background-color: #fff;
+          border-radius: 20px;
+          padding: 1rem;
+          input {
+            width: 100%;
+            background-color: none;
+            border: none;
+          }
+        }
+      }
+    }
   }
 
   .preview {

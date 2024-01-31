@@ -16,6 +16,7 @@ let socialMediaList = [
 const AddLink = ({
   onChangeHandler,
   link,
+  url,
   onAppPlaceholder,
   linkValid,
   onSubmitHandler,
@@ -27,14 +28,14 @@ const AddLink = ({
         <input
           type="text"
           placeholder="URL"
-          value={link}
+          value={url}
           name="link"
           onChange={onChangeHandler}
         />
         <button
           type="submit"
           className={linkValid ? "circle-btn isValid" : "circle-btn"}
-          disabled={!linkValid}
+          disabled={!url?.includes("/@") && url[url.length - 1] !== "@"}
         >
           Add
         </button>
@@ -47,7 +48,7 @@ const AddLink = ({
             <div key={social}>
               <SocialIcon
                 network={social}
-                onClick={() => onAppPlaceholder(`https://www.${social}.com/@`)}
+                onClick={() => onAppPlaceholder(social)}
               />
             </div>
           ))}
