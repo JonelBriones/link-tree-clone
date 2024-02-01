@@ -1,5 +1,5 @@
 .create-link-container {
-  //   margin-top: 2rem;
+  margin-top: 1rem;
   border-radius: 20px;
   border: 2px solid black;
   padding: 1rem;
@@ -21,6 +21,7 @@
     }
     form {
       display: flex;
+      flex-direction: column;
       justify-content: left;
       align-items: center;
       gap: 1rem;
@@ -28,20 +29,23 @@
       input {
         width: 100%;
         border: none;
+        outline: none;
         background-color: #d9d9d9;
         border-radius: 10px;
         padding: 0.75rem;
         font-size: 1.05rem;
       }
-      button {
+      .circle-btn {
         cursor: pointer;
-        width: 80px;
+        width: 100%;
         color: #8f8f8f;
+        cursor: not-allowed;
         transition: color 200ms ease-in-out;
       }
       .isValid {
         background-color: green;
         color: #fff;
+        cursor: pointer;
       }
     }
 

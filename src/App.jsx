@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import "./App.scss";
 
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
@@ -11,7 +11,7 @@ import Links from "./pages/Links/Links.jsx";
 import RootLayout from "./layouts/RootLayout.jsx";
 function App() {
   return (
-    <div>
+    <div className="wrapper">
       <Routes>
         <Route element={<Home />} path="/" />
         <Route element={<RootLayout />} path="/">

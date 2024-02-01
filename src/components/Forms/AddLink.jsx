@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import "./AddLink.scss";
-const onSubmitHandler = (e) => {
-  e.preventDefautl();
-};
+
 let socialMediaList = [
   "instagram",
   "tiktok",
@@ -15,11 +13,12 @@ let socialMediaList = [
 
 const AddLink = ({
   onChangeHandler,
-  link,
-  url,
+
   onAppPlaceholder,
   linkValid,
   onSubmitHandler,
+
+  link,
 }) => {
   return (
     <div className="create-link">
@@ -27,15 +26,22 @@ const AddLink = ({
       <form onSubmit={onSubmitHandler}>
         <input
           type="text"
+          placeholder="Header"
+          value={link.header}
+          name="header"
+          onChange={onChangeHandler}
+        />
+        <input
+          type="text"
           placeholder="URL"
-          value={url}
-          name="link"
+          value={link.url}
+          name="url"
           onChange={onChangeHandler}
         />
         <button
           type="submit"
           className={linkValid ? "circle-btn isValid" : "circle-btn"}
-          disabled={!url?.includes("/@") && url[url.length - 1] !== "@"}
+          disabled={!linkValid}
         >
           Add
         </button>
