@@ -5,12 +5,15 @@
   font-family: "Poppins", sans-serif;
 }
 .root-layout {
-  height: 90vh;
-  overflow: hidden;
+  // height: 19vh;
+  // overflow: hidden;
 }
 body {
   padding: 1rem;
   background-color: rgb(243 243 241);
+}
+button {
+  cursor: pointer;
 }
 
 .circle-btn {
@@ -19,6 +22,12 @@ body {
   border-radius: 30px;
   padding: 0.75rem;
   font-size: 1.05rem;
+}
+a {
+  text-decoration-line: none;
+}
+a:visited {
+  color: inherit;
 }
 nav {
   background-color: #fff;

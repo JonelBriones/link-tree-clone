@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SocialIcon } from "react-social-icons";
 import "./AddLink.scss";
+import { RxCross2 } from "react-icons/rx";
 
 let socialMediaList = [
   "instagram",
@@ -17,12 +18,21 @@ const AddLink = ({
   onAppPlaceholder,
   linkValid,
   onSubmitHandler,
-
+  setToggleCreateURL,
   link,
 }) => {
   return (
     <div className="create-link">
-      <h3>Enter URL</h3>
+      <div>
+        <button className="create-link-cancel-btn">
+          <RxCross2
+            onClick={() => setToggleCreateURL(false)}
+            size={"1.25rem"}
+            className="cancel-btn"
+          />
+        </button>
+      </div>
+
       <form onSubmit={onSubmitHandler}>
         <input
           type="text"

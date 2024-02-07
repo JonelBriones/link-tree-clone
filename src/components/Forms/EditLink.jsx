@@ -39,7 +39,7 @@ const EditLink = (props) => {
             onClick={() => setHeaderEditToggle(true)}
             onBlur={() => setHeaderEditToggle(false)}
             autoComplete="off"
-            className="edit-input"
+            placeholder={header ? header : "Header"}
           />
           {!headerEditToggle && (
             <CiEdit size={"1.5rem"} onClick={headerFocus} autoFocus />
@@ -55,14 +55,20 @@ const EditLink = (props) => {
             onChange={(e) => onChangeEditURLHandler(e, id)}
             onBlur={() => setURLEditToggle(false)}
             autoComplete="off"
-            className="edit-input"
+            placeholder={url ? url : "URL"}
           />
           {!urlEditToggle && (
             <CiEdit size={"1.5rem"} onClick={urlFocus} autoFocus />
           )}
         </div>
       </form>
-      <button onClick={() => onDeleteHeaderHandler(id)}>delete</button>
+
+      <div className="buttons">
+        <button onClick={() => onDeleteHeaderHandler(id)} className="delete">
+          Delete
+        </button>
+        <button className="archive">Archive</button>
+      </div>
     </div>
   );
 };

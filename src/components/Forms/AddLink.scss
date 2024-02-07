@@ -3,19 +3,22 @@
   border-radius: 20px;
   border: 2px solid black;
   padding: 1rem;
-  .create-link-cancel-btn {
-    display: flex;
-    justify-content: right;
-  }
+
   .create-link {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    .create-link-cancel-btn {
+    div {
       display: flex;
       justify-content: right;
       align-items: center;
+      .create-link-cancel-btn {
+        border: none;
+        background-color: inherit;
+        width: fit-content;
+      }
     }
+
     h3 {
       font-size: 1.25rem;
     }
@@ -52,7 +55,7 @@
     .list-apps-container {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: left;
       align-items: left;
       .list-apps {
         display: flex;

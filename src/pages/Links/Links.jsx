@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Links.scss";
 import { regex } from "../../utils/regex";
-import { RxCross2 } from "react-icons/rx";
+import { HiDotsHorizontal } from "react-icons/hi";
+
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { SiLinktree } from "react-icons/si";
 import AddLink from "../../components/Forms/AddLink";
 import { userData } from "../../utils/data";
 import EditLink from "../../components/Forms/EditLink";
+import { Link } from "react-router-dom";
 const linkDefaultForm = {
   url: "",
   header: "",
@@ -22,10 +24,11 @@ const Links = () => {
   const [links, setLinks] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [linkValid, setLinkValid] = useState(false);
+  const linktreeURL = `https://linktr.ee/${userInfo.username}`;
   useEffect(() => {
     setLinks(userData.links);
-    let { id, header, network } = userData;
-    setUserInfo({ id, header, network });
+    let { username, email, password, backgroundTheme } = userData;
+    setUserInfo({ username, email, password, backgroundTheme });
 
     // axios
     //   .get(`http://localhost:5173/admin`)
@@ -95,9 +98,11 @@ const Links = () => {
     // setLinks(...links)
   };
 
+  const copyURL = () => {
+    navigator.clipboard.writeText(linktreeURL);
+  };
   return (
     <div className="links-container">
-      e
       <div className="links-edit-container">
         <div className="linktree-live-information">
           <IoIosInformationCircleOutline size={"1.2rem"} />
@@ -105,30 +110,35 @@ const Links = () => {
             <div>
               <p>
                 Your Linktree is live:{" "}
-                <span className="url-link">linktr.ee/{userData.username}</span>
+                <Link
+                  to={`https://linktr.ee/${userInfo.username}`}
+                  target="_blank"
+                  className="url-link"
+                >
+                  linktr.ee/{userInfo.username}
+                </Link>
               </p>
               <p>Share your Linktree to your socials</p>
             </div>
-            <button className="circle-btn">Copy URL</button>
+            <button className="circle-btn" onClick={copyURL}>
+              Copy URL
+            </button>
           </div>
         </div>
         <section>
           <p>Set up your Linktree</p>
-          <div className="setup-linktree-btns">
-            <button onClick={() => setToggleCreateURL(true)}>
-              Create a link
+          <div className="">
+            <button
+              onClick={() => setToggleCreateURL(true)}
+              className={`create-link-btn ${toggleCreateURL ? "hide" : "show"}`}
+            >
+              + Add link
             </button>
           </div>
           {toggleCreateURL && (
             <div className="create-link-container">
-              <div className="create-link-cancel-btn">
-                <RxCross2
-                  onClick={() => setToggleCreateURL(false)}
-                  size={"1.25rem"}
-                  className="cancel-btn"
-                />
-              </div>
               <AddLink
+                setToggleCreateURL={setToggleCreateURL}
                 onChangeHandler={onChangeHandler}
                 onSubmitHandler={onSubmitHandler}
                 link={link}
@@ -156,6 +166,16 @@ const Links = () => {
           <div className="description">
             <h2>P</h2>
             <p>@{username}</p>
+          </div>
+          <div className="links">
+            {links.map((link) => (
+              <div key={link.id} className="links-card">
+                <Link to={link.url} target="_blank">
+                  {link.header}
+                </Link>
+                <HiDotsHorizontal className="options" />
+              </div>
+            ))}
           </div>
           <p>
             Linktree <SiLinktree />
