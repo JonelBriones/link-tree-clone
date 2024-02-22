@@ -1,7 +1,20 @@
-const mongoose = require("mongoose");
+import { connect } from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+
 // creates new / connects to chosen database.
-mongoose
-  .connect("mongodb://127.0.0.1:27017/linktree-clone-db")
-  .then(() => console.log("connected to database"))
-  .catch(() => console.log("failed to connect to database..."));
-// decapretated - { useNewUrlParser: true, useUnifiedTopology: true}
+const MONGOD_URI = process.env.MONGOD_URI;
+
+async function dbConnect() {
+  try {
+    await connect(MONGOD_URI, {
+      dbName: "linktree-clone-users",
+    });
+  } catch (err) {
+    console.log("FAILED TO CONNECT TO MONGODB...");
+    console.log(err);
+    throw err;
+  }
+}
+
+export default dbConnect;

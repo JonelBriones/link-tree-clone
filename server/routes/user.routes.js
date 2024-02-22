@@ -1,26 +1,44 @@
-const UserController = require("../controllers/user.controllers");
+import { Router } from "express";
 
-module.exports = (app) => {
-  // GET ALL LINKS
-  app.get("/admin/:username", UserController.getUser);
-  app.post("/user/create", UserController.createUser);
+import {
+  createUser,
+  getUsers,
+  updateLinks,
+} from "../controllers/user.controllers.js";
 
-  //GET ONE USER
-  // app.get("/admin/:id", (req, res) => {
-  //   res.json({ msg: "GET USER BY ID" });
-  // });
+const router = Router();
 
-  // app.post("/admin/user", (req, res) => {
-  //   console.log(req.body);
-  //   res.send("POST /admin/user");
-  // });
-  // app.delete("/:id", (req, res) => {
-  //   res.json({ msg: "DELETE LINK" });
-  // });
-  // app.patch("/:id", (req, res) => {
-  //   res.json({ msg: "UPDATE LINK" });
-  // });
-};
+// GET ALL LINKS
+
+// users
+router.route("/create/user").post(createUser);
+router.route("/users").get(getUsers);
+
+router.route("/create/link/:id").put(updateLinks);
+
+export default router;
+// router.route("/api/:id", UserController.getUser);
+// router.route("/api/user", UserController.updateUserLinks);
+
+// links
+
+// router.route("/api/links", UserController.updateUserLinks);
+
+//GET ONE USER
+// app.get("/admin/:id", (req, res) => {
+//   res.json({ msg: "GET USER BY ID" });
+// });
+
+// app.post("/admin/user", (req, res) => {
+//   console.log(req.body);
+//   res.send("POST /admin/user");
+// });
+// app.delete("/:id", (req, res) => {
+//   res.json({ msg: "DELETE LINK" });
+// });
+// app.patch("/:id", (req, res) => {
+//   res.json({ msg: "UPDATE LINK" });
+// });
 
 // {
 //   "username": "jonelkindacodes",

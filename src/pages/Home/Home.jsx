@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <nav>
@@ -10,8 +10,8 @@ const Home = () => {
         <li>Pricing</li>
       </ul>
       <ul>
-        <li>Log in</li>
-        <li>Sign up free</li>
+        <Link to={"/login"}>Login</Link>
+        <Link to={"/signup"}>Sign up free</Link>
       </ul>
     </nav>
   );

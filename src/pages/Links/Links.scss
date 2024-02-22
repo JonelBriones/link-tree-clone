@@ -110,17 +110,23 @@
           font-weight: 400;
         }
       }
+
       .links {
         display: flex;
         gap: 0.5rem;
         flex-direction: column;
         width: 90%;
         margin-block: 1rem;
+        // overflow-y: scroll;
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+        scrollbar-width: none; /* Firefox */
+        overflow-y: scroll;
+
         .links-card {
           transition: all 200ms ease;
           background-color: #fff;
           border-radius: 5px;
-          padding: 1rem;
+          padding: 0.85rem;
           display: flex;
           justify-content: center;
           position: relative;

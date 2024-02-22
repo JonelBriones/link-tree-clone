@@ -11,7 +11,7 @@ const EditLink = (props) => {
     onChangeEditURLHandler,
     onDeleteHeaderHandler,
   } = props;
-  const { header, url, id } = link;
+  const { header, url, _id } = link;
   const [headerEditToggle, setHeaderEditToggle] = useState(false);
   const [urlEditToggle, setURLEditToggle] = useState(false);
 
@@ -35,7 +35,7 @@ const EditLink = (props) => {
             type="text"
             value={header}
             name="header"
-            onChange={(e) => onChangeEditHeaderHandler(e, id)}
+            onChange={(e) => onChangeEditHeaderHandler(e, _id)}
             onClick={() => setHeaderEditToggle(true)}
             onBlur={() => setHeaderEditToggle(false)}
             autoComplete="off"
@@ -52,7 +52,7 @@ const EditLink = (props) => {
             value={url}
             name="url"
             onClick={() => setURLEditToggle(true)}
-            onChange={(e) => onChangeEditURLHandler(e, id)}
+            onChange={(e) => onChangeEditURLHandler(e, _id)}
             onBlur={() => setURLEditToggle(false)}
             autoComplete="off"
             placeholder={url ? url : "URL"}
@@ -64,7 +64,7 @@ const EditLink = (props) => {
       </form>
 
       <div className="buttons">
-        <button onClick={() => onDeleteHeaderHandler(id)} className="delete">
+        <button onClick={() => onDeleteHeaderHandler(_id)} className="delete">
           Delete
         </button>
         <button className="archive">Archive</button>

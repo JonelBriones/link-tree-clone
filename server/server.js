@@ -1,17 +1,22 @@
-require("dotenv").config();
-
 // init app & middleware
-const express = require("express");
-const cors = require("cors");
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import dbConnect from "./config/mongoose.config.js";
+import router from "./routes/user.routes.js";
 const app = express();
 
-// middlewares
-app.use(cors());
-app.use(express.json()); //parses json payloads
-app.use(express.urlencoded({ extended: true })); //parses url json payloads
+dotenv.config();
+const PORT = process.env.PORT;
+dbConnect();
 
-require("./config/mongoose.config");
-require("./routes/user.routes")(app);
-app.listen(process.env.PORT, () => {
-  console.log("listening on port:", process.env.PORT);
+app.use(
+  cors({ credentials: true, origin: "http://localhost:5173" }),
+  express.json(),
+  express.urlencoded({ extended: true })
+);
+app.use("/api", router);
+
+app.listen(PORT, () => {
+  console.log("listening on port:", PORT);
 });

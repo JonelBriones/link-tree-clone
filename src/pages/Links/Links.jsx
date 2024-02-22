@@ -7,7 +7,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { SiLinktree } from "react-icons/si";
 import AddLink from "../../components/Forms/AddLink";
-import { userData } from "../../utils/data";
+// import { userData } from "../../utils/data";
 import EditLink from "../../components/Forms/EditLink";
 import { Link } from "react-router-dom";
 const linkDefaultForm = {
@@ -22,23 +22,21 @@ const Links = () => {
   const [url, setURL] = useState("");
   const [header, setHeader] = useState("");
   const [links, setLinks] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
   const [linkValid, setLinkValid] = useState(false);
-  const linktreeURL = `https://linktr.ee/${userInfo.username}`;
+  const [user, setUser] = useState({});
+  const linktreeURL = `https://linktr.ee/${user.username}`;
   useEffect(() => {
-    setLinks(userData.links);
-    let { username, email, password, backgroundTheme } = userData;
-    setUserInfo({ username, email, password, backgroundTheme });
-
-    // axios
-    //   .get(`http://localhost:5173/admin`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.res);
-    //   });
-  }, [userData]);
+    axios
+      .get(`http://localhost:8000/api/users`)
+      .then((res) => {
+        const user = res.data[1];
+        setUser(user);
+        setLinks(user.links);
+      })
+      .catch((err) => {
+        console.log(err.res);
+      });
+  }, []);
 
   useEffect(() => {
     console.log(linkValid);
@@ -65,8 +63,12 @@ const Links = () => {
     e.preventDefault();
     console.log("onsubmit");
     if (linkValid) {
-      let addLink = { ...link, id: Math.floor(Math.random() * 10_000_000) };
-      setLinks([...links, addLink]);
+      axios
+        .put(`http//localhost:8000/api/create/:${user._id}`, link)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+
+      setLinks([...links, link]);
       setLink(linkDefaultForm);
     }
   };
@@ -75,14 +77,14 @@ const Links = () => {
   const onChangeEditHeaderHandler = (e, id) => {
     let updatedValue = e.target.value;
     setLinks(
-      links.map((li) => (li.id === id ? { ...li, header: updatedValue } : li))
+      links.map((li) => (li._id === id ? { ...li, header: updatedValue } : li))
     );
     console.log(id);
   };
   const onChangeEditURLHandler = (e, id) => {
     let updatedValue = e.target.value;
     setLinks(
-      links.map((li) => (li.id === id ? { ...li, url: updatedValue } : li))
+      links.map((li) => (li._id === id ? { ...li, url: updatedValue } : li))
     );
     console.log(id);
   };
@@ -90,7 +92,6 @@ const Links = () => {
   const onDeleteHeaderHandler = (id) => {
     setLinks(links.filter((link) => link.id !== id));
   };
-  const onDeleteURLHandler = (id) => {};
 
   const onSubmitEditHandler = (e) => {
     // e.preventDefault();
@@ -111,11 +112,11 @@ const Links = () => {
               <p>
                 Your Linktree is live:{" "}
                 <Link
-                  to={`https://linktr.ee/${userInfo.username}`}
+                  to={`https://linktr.ee/${linktreeURL}`}
                   target="_blank"
                   className="url-link"
                 >
-                  linktr.ee/{userInfo.username}
+                  linktr.ee/{linktreeURL}
                 </Link>
               </p>
               <p>Share your Linktree to your socials</p>
@@ -151,7 +152,7 @@ const Links = () => {
             {links?.map((link) => (
               <EditLink
                 link={link}
-                key={link.id}
+                key={link._id}
                 onSubmitEditHandler={onSubmitEditHandler}
                 onChangeEditHeaderHandler={onChangeEditHeaderHandler}
                 onChangeEditURLHandler={onChangeEditURLHandler}
@@ -168,8 +169,8 @@ const Links = () => {
             <p>@{username}</p>
           </div>
           <div className="links">
-            {links.map((link) => (
-              <div key={link.id} className="links-card">
+            {links?.map((link) => (
+              <div key={link._id} className="links-card">
                 <Link to={link.url} target="_blank">
                   {link.header}
                 </Link>

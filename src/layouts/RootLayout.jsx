@@ -1,14 +1,23 @@
-import React from "react";
 import NavbarAdmin from "../components/Navbar/Admin/NavbarAdmin.components";
 import { Outlet } from "react-router-dom";
-
-const RootLayout = () => {
+import { userData } from "../utils/data";
+import Home from "../pages/Home/Home";
+import React from "react";
+// import { userData } from "../utils/data";
+const RootLayout = (user) => {
   return (
     <div className="root-layout">
-      <NavbarAdmin />
-      <main>
-        <Outlet />
-      </main>
+      {user ? (
+        <div>
+          <NavbarAdmin user={user} />
+          <main>
+            <Outlet user={user} />
+          </main>
+        </div>
+      ) : (
+        <Home />
+      )}
+
       {/* use footer on welcome page */}
       {/* <footer>
         <div className="about">

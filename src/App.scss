@@ -5,13 +5,19 @@
   font-family: "Poppins", sans-serif;
 }
 .root-layout {
+  padding: 1rem;
   // height: 19vh;
   // overflow: hidden;
 }
 body {
-  padding: 1rem;
+  // padding: 1rem;
   background-color: rgb(243 243 241);
+  .signup-container {
+    background-color: #fff;
+    height: 100vh;
+  }
 }
+
 button {
   cursor: pointer;
 }
