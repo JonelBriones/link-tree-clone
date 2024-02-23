@@ -1,103 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./Links.scss";
-import { regex } from "../../utils/regex";
 import { HiDotsHorizontal } from "react-icons/hi";
-
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { SiLinktree } from "react-icons/si";
 import AddLink from "../../components/Forms/AddLink";
 // import { userData } from "../../utils/data";
 import EditLink from "../../components/Forms/EditLink";
 import { Link } from "react-router-dom";
-const linkDefaultForm = {
-  url: "",
-  header: "",
-};
+import { UserContext } from "../../context/UserContext";
 
 const Links = () => {
-  const [toggleCreateURL, setToggleCreateURL] = useState(false);
-  const [username, setUsername] = useState("JonelKindaCodes");
-  const [link, setLink] = useState(linkDefaultForm);
-  const [url, setURL] = useState("");
-  const [header, setHeader] = useState("");
-  const [links, setLinks] = useState([]);
-  const [linkValid, setLinkValid] = useState(false);
-  const [user, setUser] = useState({});
+  const {
+    user,
+    setUser,
+    onChangeHandler,
+    onAppPlaceholder,
+    onSubmitHandler,
+    onChangeEditHeaderHandler,
+    onChangeEditURLHandler,
+    onDeleteHeaderHandler,
+    onSubmitEditHandler,
+    link,
+    links,
+    linkValid,
+    setLinkValid,
+    toggleCreateURL,
+    setToggleCreateURL,
+  } = useContext(UserContext);
+  console.log(user);
+
   const linktreeURL = `https://linktr.ee/${user.username}`;
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/users`)
-      .then((res) => {
-        const user = res.data[1];
-        setUser(user);
-        setLinks(user.links);
-      })
-      .catch((err) => {
-        console.log(err.res);
-      });
-  }, []);
-
-  useEffect(() => {
-    console.log(linkValid);
-
-    setLinkValid(
-      link.url?.includes("/@") && link.url[link.url.length - 1] !== "@"
-    );
-  }, [link.url]);
-  const onChangeHandler = (e) => {
-    const newLink = { ...link };
-    newLink[e.target.name] = e.target.value;
-    console.log(newLink);
-    setLink(newLink);
-  };
-  const onAppPlaceholder = (social) => {
-    let url = `https://www.${social}.com/@`;
-    console.log("social", url);
-    // setURL(url);
-    setLink({ ...link, url: url });
-  };
-  const onSubmitHandler = (e) => {
-    if (!linkValid) return;
-    console.log(url);
-    e.preventDefault();
-    console.log("onsubmit");
-    if (linkValid) {
-      axios
-        .put(`http//localhost:8000/api/create/:${user._id}`, link)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-
-      setLinks([...links, link]);
-      setLink(linkDefaultForm);
-    }
-  };
-  // EDIT FUNCTIONS
-
-  const onChangeEditHeaderHandler = (e, id) => {
-    let updatedValue = e.target.value;
-    setLinks(
-      links.map((li) => (li._id === id ? { ...li, header: updatedValue } : li))
-    );
-    console.log(id);
-  };
-  const onChangeEditURLHandler = (e, id) => {
-    let updatedValue = e.target.value;
-    setLinks(
-      links.map((li) => (li._id === id ? { ...li, url: updatedValue } : li))
-    );
-    console.log(id);
-  };
-
-  const onDeleteHeaderHandler = (id) => {
-    setLinks(links.filter((link) => link.id !== id));
-  };
-
-  const onSubmitEditHandler = (e) => {
-    // e.preventDefault();
-    console.log(links);
-    // setLinks(...links)
-  };
 
   const copyURL = () => {
     navigator.clipboard.writeText(linktreeURL);
@@ -149,7 +82,7 @@ const Links = () => {
             </div>
           )}
           <div className="edit-container">
-            {links?.map((link) => (
+            {user.links?.map((link) => (
               <EditLink
                 link={link}
                 key={link._id}
@@ -166,10 +99,10 @@ const Links = () => {
         <div className="iphone">
           <div className="description">
             <h2>P</h2>
-            <p>@{username}</p>
+            <p>@{user.username}</p>
           </div>
           <div className="links">
-            {links?.map((link) => (
+            {user.links?.map((link) => (
               <div key={link._id} className="links-card">
                 <Link to={link.url} target="_blank">
                   {link.header}

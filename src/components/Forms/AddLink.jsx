@@ -14,7 +14,6 @@ let socialMediaList = [
 
 const AddLink = ({
   onChangeHandler,
-
   onAppPlaceholder,
   linkValid,
   onSubmitHandler,

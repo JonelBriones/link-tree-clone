@@ -2,16 +2,18 @@ import NavbarAdmin from "../components/Navbar/Admin/NavbarAdmin.components";
 import { Outlet } from "react-router-dom";
 import { userData } from "../utils/data";
 import Home from "../pages/Home/Home";
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 // import { userData } from "../utils/data";
-const RootLayout = (user) => {
+const RootLayout = () => {
+  const { user } = useContext(UserContext);
   return (
     <div className="root-layout">
       {user ? (
         <div>
-          <NavbarAdmin user={user} />
+          <NavbarAdmin />
           <main>
-            <Outlet user={user} />
+            <Outlet />
           </main>
         </div>
       ) : (
