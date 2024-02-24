@@ -19,16 +19,17 @@ const Links = () => {
     onSubmitHandler,
     onChangeEditHeaderHandler,
     onChangeEditURLHandler,
-    onDeleteHeaderHandler,
+    onDeleteLinkHandler,
     onSubmitEditHandler,
-    link,
-    links,
+    onChangeUpdateHandler,
     linkValid,
-    setLinkValid,
+    editedLink,
     toggleCreateURL,
     setToggleCreateURL,
+    link,
+    links,
+    setEditedLink,
   } = useContext(UserContext);
-  console.log(user);
 
   const linktreeURL = `https://linktr.ee/${user.username}`;
 
@@ -82,14 +83,18 @@ const Links = () => {
             </div>
           )}
           <div className="edit-container">
-            {user.links?.map((link) => (
+            {links?.map((link) => (
               <EditLink
+                user={user}
                 link={link}
                 key={link._id}
                 onSubmitEditHandler={onSubmitEditHandler}
                 onChangeEditHeaderHandler={onChangeEditHeaderHandler}
                 onChangeEditURLHandler={onChangeEditURLHandler}
-                onDeleteHeaderHandler={onDeleteHeaderHandler}
+                onDeleteLinkHandler={onDeleteLinkHandler}
+                onChangeUpdateHandler={onChangeUpdateHandler}
+                editedLink={editedLink}
+                setEditedLink={setEditedLink}
               />
             ))}
           </div>
@@ -102,7 +107,7 @@ const Links = () => {
             <p>@{user.username}</p>
           </div>
           <div className="links">
-            {user.links?.map((link) => (
+            {links?.map((link) => (
               <div key={link._id} className="links-card">
                 <Link to={link.url} target="_blank">
                   {link.header}

@@ -4,6 +4,7 @@ import {
   createUser,
   getUsers,
   updateLinks,
+  updateLink,
 } from "../controllers/user.controllers.js";
 
 const router = Router();
@@ -15,6 +16,8 @@ router.route("/create/user").post(createUser);
 router.route("/users").get(getUsers);
 
 router.route("/create/link/:id").put(updateLinks);
+router.route("/update/link/:id").patch(updateLink);
+// router.route("/update/link/:id").put(updateLinks);
 
 export default router;
 // router.route("/api/:id", UserController.getUser);

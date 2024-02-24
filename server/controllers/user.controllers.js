@@ -7,12 +7,50 @@ async function createUser(req, res) {
   res.json({ message: "User successfully created!" });
 }
 async function updateLinks(req, res) {
-  const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true,
-  });
   console.log("updating user's links...");
-  res.json({ message: "User successfully created!" });
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { links: req.body },
+      {
+        new: true,
+      }
+    );
+    res.json({ message: "User successfully created!" });
+  } catch (err) {
+    console.log("couldnt update user's links...", err);
+    res.status(400);
+    res.status(400).json(err);
+  }
 }
+
+async function updateLink(req, res) {
+  console.log("UPDATE LINK WITH ID:", req.params.id);
+  console.log("UPDATED DATA", req.body);
+  try {
+    const linkId = req.params.id;
+    if (req.body.url == "" || req.body.header == "") {
+    } else {
+      const link = await User.findOneAndUpdate(
+        { "links._id": linkId },
+        { $set: { "links.$": req.body } },
+        { new: false }
+      );
+      res.json(link);
+    }
+
+    /* 
+    get the id of the link to update,
+    go into the properties of the link and update
+     */
+  } catch (err) {
+    console.log("couldnt update user's link...", err);
+    res.status(400);
+    res.status(400).json(err);
+  }
+}
+
 async function getUsers(req, res) {
   console.log("retrieving users...");
   try {
@@ -25,7 +63,7 @@ async function getUsers(req, res) {
   }
 }
 
-export { createUser, getUsers, updateLinks };
+export { createUser, getUsers, updateLinks, updateLink };
 // module.exports.getUser = (req, res) => {
 //   User.findOne({ username: req.params.username })
 //     .then((user) => res.json(user))

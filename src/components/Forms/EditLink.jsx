@@ -1,22 +1,33 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { CiEdit } from "react-icons/ci";
 import { RxCross2 } from "react-icons/rx";
 
 import "./EditLink.scss";
+import axios from "axios";
 const EditLink = (props) => {
   const {
+    user,
     link,
-    onSubmitEditHandler,
     onChangeEditHeaderHandler,
     onChangeEditURLHandler,
-    onDeleteHeaderHandler,
+    onDeleteLinkHandler,
+    setEditedLink,
+    // editedLink,
+    // onSubmitEditHandler,
+    // onChangeUpdateHandler,
   } = props;
   const { header, url, _id } = link;
+
   const [headerEditToggle, setHeaderEditToggle] = useState(false);
   const [urlEditToggle, setURLEditToggle] = useState(false);
-
   const headerRef = useRef();
   const urlRef = useRef();
+
+  const [updateLink, setUpdateLink] = useState({
+    header: "",
+    url: "",
+  });
+
   const headerFocus = () => {
     setHeaderEditToggle(true);
     headerRef.current.focus();
@@ -26,21 +37,62 @@ const EditLink = (props) => {
     urlRef.current.focus();
   };
 
+  useEffect(() => {
+    setUpdateLink(user.links.find((link) => link._id == _id));
+  }, []);
+  console.log("update link", updateLink);
+
+  const onChangeUpdateHandler = (e) => {
+    e.preventDefault();
+    const link = { ...updateLink };
+    link[e.target.name] = e.target.value;
+    setUpdateLink(link);
+    console.log(link);
+  };
+
+  const onSubmitEditHandler = (e, linkId) => {
+    e.preventDefault();
+    axios
+      .patch(`/api/update/link/${linkId}`, { ...updateLink, _id: linkId })
+      .then((res) => {
+        console.log("UPDATE COMPLETE");
+      })
+      .catch((err) => console.log("UPDATE FAILED", err));
+  };
+
   return (
     <div className="link-container">
-      <form onSubmit={onSubmitEditHandler}>
+      <form onBlur={(e) => onSubmitEditHandler(e, _id)}>
         <div className="edit-header">
           <input
             ref={headerRef}
             type="text"
-            value={header}
+            value={updateLink.header}
+            placeholder={header}
             name="header"
-            onChange={(e) => onChangeEditHeaderHandler(e, _id)}
-            onClick={() => setHeaderEditToggle(true)}
+            onChange={(e) => onChangeUpdateHandler(e, _id)}
+            onClick={() => setURLEditToggle(true)}
             onBlur={() => setHeaderEditToggle(false)}
             autoComplete="off"
-            placeholder={header ? header : "Header"}
           />
+          {/* {!headerEditToggle ? (
+            <label htmlFor="header" onClick={() => setHeaderEditToggle(true)}>
+              {header}
+            </label>
+          ) : (
+            <input
+              ref={headerRef}
+              type="text"
+              value={editedLink.header}
+              placeholder={header}
+              name="header"
+              onChange={(e) => onChangeUpdateHandler(e, _id)}
+              // onClick={onClickHandler}
+              onClick={() => setURLEditToggle(true)}
+              onBlur={() => setHeaderEditToggle(false)}
+              autoComplete="off"
+            />
+          )} */}
           {!headerEditToggle && (
             <CiEdit size={"1.5rem"} onClick={headerFocus} autoFocus />
           )}
@@ -49,14 +101,31 @@ const EditLink = (props) => {
           <input
             ref={urlRef}
             type="text"
-            value={url}
+            value={updateLink.url}
+            placeholder={url}
             name="url"
+            onChange={(e) => onChangeUpdateHandler(e, _id)}
             onClick={() => setURLEditToggle(true)}
-            onChange={(e) => onChangeEditURLHandler(e, _id)}
             onBlur={() => setURLEditToggle(false)}
             autoComplete="off"
-            placeholder={url ? url : "URL"}
           />
+          {/* {!urlEditToggle ? (
+            <label htmlFor="url" onClick={() => setURLEditToggle(true)}>
+              {url}
+            </label>
+          ) : (
+            <input
+              ref={urlRef}
+              type="text"
+              value={editedLink.url}
+              placeholder={url}
+              name="url"
+              onChange={(e) => onChangeUpdateHandler(e, _id)}
+              onClick={() => setURLEditToggle(true)}
+              onBlur={() => setURLEditToggle(false)}
+              autoComplete="off"
+            />
+          )} */}
           {!urlEditToggle && (
             <CiEdit size={"1.5rem"} onClick={urlFocus} autoFocus />
           )}
@@ -64,7 +133,7 @@ const EditLink = (props) => {
       </form>
 
       <div className="buttons">
-        <button onClick={() => onDeleteHeaderHandler(_id)} className="delete">
+        <button onClick={() => onDeleteLinkHandler(_id)} className="delete">
           Delete
         </button>
         <button className="archive">Archive</button>
