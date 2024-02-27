@@ -1,10 +1,13 @@
 import { Router } from "express";
-
+import { authenticate } from "../config/jtw.config.js";
 import {
-  createUser,
+  register,
   getUsers,
   updateLinks,
   updateLink,
+  login,
+  logout,
+  getLoggedUser,
 } from "../controllers/user.controllers.js";
 
 const router = Router();
@@ -12,8 +15,11 @@ const router = Router();
 // GET ALL LINKS
 
 // users
-router.route("/create/user").post(createUser);
+router.route("/register", authenticate).post(register);
+router.route("/login", authenticate).post(login);
+router.route("/logout").post(logout);
 router.route("/users").get(getUsers);
+router.route("/user", authenticate).get(getLoggedUser);
 
 router.route("/create/link/:id").put(updateLinks);
 router.route("/update/link/:id").patch(updateLink);

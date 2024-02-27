@@ -4,16 +4,20 @@ import express from "express";
 import cors from "cors";
 import dbConnect from "./config/mongoose.config.js";
 import router from "./routes/user.routes.js";
+
+import cookieParser from "cookie-parser";
 const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT;
+
 dbConnect();
 
 app.use(
   cors({ credentials: true, origin: "http://localhost:5173" }),
   express.json(),
-  express.urlencoded({ extended: true })
+  express.urlencoded({ extended: true }),
+  cookieParser()
 );
 app.use("/api", router);
 
