@@ -7,9 +7,9 @@ const Navbar = () => {
       <nav>
         <ul>
           <Link to={""}>MySocials</Link>
-          <Link to={""}>Templates</Link>
+          {/* <Link to={""}>Templates</Link>
           <Link to={""}>Marketplace</Link>
-          <Link to={""}>Pricing</Link>
+          <Link to={""}>Pricing</Link> */}
         </ul>
         <ul>
           <Link to={"/login"}>Log in</Link>

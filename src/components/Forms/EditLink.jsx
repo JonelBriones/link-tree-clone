@@ -5,17 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import "./EditLink.scss";
 import axios from "axios";
 const EditLink = (props) => {
-  const {
-    user,
-    link,
-    onChangeEditHeaderHandler,
-    onChangeEditURLHandler,
-    onDeleteLinkHandler,
-    setEditedLink,
-    // editedLink,
-    // onSubmitEditHandler,
-    // onChangeUpdateHandler,
-  } = props;
+  const { user, link, onDeleteLinkHandler } = props;
   const { header, url, _id } = link;
 
   const [headerEditToggle, setHeaderEditToggle] = useState(false);
@@ -40,20 +30,22 @@ const EditLink = (props) => {
   useEffect(() => {
     setUpdateLink(user.links.find((link) => link._id == _id));
   }, []);
-  console.log("update link", updateLink);
-
   const onChangeUpdateHandler = (e) => {
     e.preventDefault();
     const link = { ...updateLink };
     link[e.target.name] = e.target.value;
     setUpdateLink(link);
-    console.log(link);
   };
 
-  const onSubmitEditHandler = (e, linkId) => {
+  const onSubmitEditHandler = (e) => {
     e.preventDefault();
+    let linkValid =
+      updateLink.url?.includes("/@") &&
+      updateLink.url[updateLink.url.length - 1] !== "@";
+    if (!linkValid || updateLink.header == "") return;
+
     axios
-      .patch(`/api/update/link/${linkId}`, { ...updateLink, _id: linkId })
+      .patch(`/api/update/link/${_id}`, { ...updateLink, _id: _id })
       .then((res) => {
         console.log("UPDATE COMPLETE");
       })
@@ -62,7 +54,7 @@ const EditLink = (props) => {
 
   return (
     <div className="link-container">
-      <form onBlur={(e) => onSubmitEditHandler(e, _id)}>
+      <form onBlur={(e) => onSubmitEditHandler(e)}>
         <div className="edit-header">
           <input
             ref={headerRef}
@@ -70,29 +62,11 @@ const EditLink = (props) => {
             value={updateLink.header}
             placeholder={header}
             name="header"
-            onChange={(e) => onChangeUpdateHandler(e, _id)}
-            onClick={() => setURLEditToggle(true)}
+            onChange={onChangeUpdateHandler}
+            onClick={() => setHeaderEditToggle(true)}
             onBlur={() => setHeaderEditToggle(false)}
             autoComplete="off"
           />
-          {/* {!headerEditToggle ? (
-            <label htmlFor="header" onClick={() => setHeaderEditToggle(true)}>
-              {header}
-            </label>
-          ) : (
-            <input
-              ref={headerRef}
-              type="text"
-              value={editedLink.header}
-              placeholder={header}
-              name="header"
-              onChange={(e) => onChangeUpdateHandler(e, _id)}
-              // onClick={onClickHandler}
-              onClick={() => setURLEditToggle(true)}
-              onBlur={() => setHeaderEditToggle(false)}
-              autoComplete="off"
-            />
-          )} */}
           {!headerEditToggle && (
             <CiEdit size={"1.5rem"} onClick={headerFocus} autoFocus />
           )}
@@ -104,32 +78,16 @@ const EditLink = (props) => {
             value={updateLink.url}
             placeholder={url}
             name="url"
-            onChange={(e) => onChangeUpdateHandler(e, _id)}
+            onChange={onChangeUpdateHandler}
             onClick={() => setURLEditToggle(true)}
             onBlur={() => setURLEditToggle(false)}
             autoComplete="off"
           />
-          {/* {!urlEditToggle ? (
-            <label htmlFor="url" onClick={() => setURLEditToggle(true)}>
-              {url}
-            </label>
-          ) : (
-            <input
-              ref={urlRef}
-              type="text"
-              value={editedLink.url}
-              placeholder={url}
-              name="url"
-              onChange={(e) => onChangeUpdateHandler(e, _id)}
-              onClick={() => setURLEditToggle(true)}
-              onBlur={() => setURLEditToggle(false)}
-              autoComplete="off"
-            />
-          )} */}
           {!urlEditToggle && (
             <CiEdit size={"1.5rem"} onClick={urlFocus} autoFocus />
           )}
         </div>
+        <button onSubmit={onSubmitEditHandler}></button>
       </form>
 
       <div className="buttons">

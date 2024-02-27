@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./NavbarAdmin.scss";
 import { FaBars } from "react-icons/fa6";
@@ -9,12 +9,14 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { FiBell } from "react-icons/fi";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { IoMdShareAlt } from "react-icons/io";
+import { UserContext } from "../../../context/UserContext";
 
 const NavbarAdmin = () => {
   const [currentPage, setCurrentPage] = useState("admin");
   const changePage = (param) => {
     setCurrentPage(param);
   };
+  const { user } = useContext(UserContext);
 
   return (
     <div>
@@ -79,7 +81,7 @@ const NavbarAdmin = () => {
               <span>Share</span>
             </button>
           </li>
-          <li className="nav-btns">
+          <li className="nav-btns" onClick={() => console.log("logout")}>
             <button className="profile">P</button>
           </li>
         </ul>

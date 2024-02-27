@@ -39,6 +39,7 @@ const AddLink = ({
           value={link.header}
           name="header"
           onChange={onChangeHandler}
+          autoComplete="off"
         />
         <input
           type="text"
@@ -49,8 +50,12 @@ const AddLink = ({
         />
         <button
           type="submit"
-          className={linkValid ? "circle-btn isValid" : "circle-btn"}
-          disabled={!linkValid}
+          className={
+            linkValid && link.header.length > 0
+              ? "circle-btn isValid"
+              : "circle-btn"
+          }
+          disabled={!linkValid && link.header == ""}
         >
           Add
         </button>

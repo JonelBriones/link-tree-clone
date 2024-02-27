@@ -13,22 +13,15 @@ import { UserContext } from "../../context/UserContext";
 const Links = () => {
   const {
     user,
-    setUser,
     onChangeHandler,
     onAppPlaceholder,
     onSubmitHandler,
-    onChangeEditHeaderHandler,
-    onChangeEditURLHandler,
     onDeleteLinkHandler,
-    onSubmitEditHandler,
-    onChangeUpdateHandler,
     linkValid,
-    editedLink,
     toggleCreateURL,
     setToggleCreateURL,
-    link,
     links,
-    setEditedLink,
+    link,
   } = useContext(UserContext);
 
   const linktreeURL = `https://linktr.ee/${user.username}`;
@@ -85,16 +78,10 @@ const Links = () => {
           <div className="edit-container">
             {links?.map((link) => (
               <EditLink
+                key={link._id}
                 user={user}
                 link={link}
-                key={link._id}
-                onSubmitEditHandler={onSubmitEditHandler}
-                onChangeEditHeaderHandler={onChangeEditHeaderHandler}
-                onChangeEditURLHandler={onChangeEditURLHandler}
                 onDeleteLinkHandler={onDeleteLinkHandler}
-                onChangeUpdateHandler={onChangeUpdateHandler}
-                editedLink={editedLink}
-                setEditedLink={setEditedLink}
               />
             ))}
           </div>
