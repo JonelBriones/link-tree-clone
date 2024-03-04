@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authenticate } from "../config/jtw.config.js";
 import {
   register,
+  getUser,
   getUsers,
   updateLinks,
   updateLink,
@@ -17,9 +18,10 @@ const router = Router();
 // users
 router.route("/register", authenticate).post(register);
 router.route("/login", authenticate).post(login);
+router.route("/user", authenticate).get(getLoggedUser);
 router.route("/logout").post(logout);
 router.route("/users").get(getUsers);
-router.route("/user", authenticate).get(getLoggedUser);
+router.route("/:username").get(getUser);
 
 router.route("/create/link/:id").put(updateLinks);
 router.route("/update/link/:id").patch(updateLink);

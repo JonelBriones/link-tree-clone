@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+
 import "./Links.scss";
-import { HiDotsHorizontal } from "react-icons/hi";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { SiLinktree } from "react-icons/si";
 import AddLink from "../../components/Forms/AddLink";
-// import { userData } from "../../utils/data";
 import EditLink from "../../components/Forms/EditLink";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import Preview from "../../components/Preview/Preview";
 
 const Links = () => {
   const {
@@ -17,14 +15,14 @@ const Links = () => {
     onAppPlaceholder,
     onSubmitHandler,
     onDeleteLinkHandler,
-    linkValid,
+
     toggleCreateURL,
     setToggleCreateURL,
     links,
     link,
   } = useContext(UserContext);
 
-  const linktreeURL = `https://linktr.ee/${user.username}`;
+  const linktreeURL = `https://linktr.ee/${user?.username}`;
 
   const copyURL = () => {
     navigator.clipboard.writeText(linktreeURL);
@@ -70,7 +68,6 @@ const Links = () => {
                 onChangeHandler={onChangeHandler}
                 onSubmitHandler={onSubmitHandler}
                 link={link}
-                linkValid={linkValid}
                 onAppPlaceholder={onAppPlaceholder}
               />
             </div>
@@ -87,7 +84,8 @@ const Links = () => {
           </div>
         </section>
       </div>
-      <div className="preview">
+      <Preview user={user} button={false} />
+      {/* <div className="preview">
         <div className="iphone">
           <div className="description">
             <h2>P</h2>
@@ -107,7 +105,7 @@ const Links = () => {
             Linktree <SiLinktree />
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -11,6 +11,7 @@ import Links from "./pages/Links/Links.jsx";
 import RootLayout from "./layouts/RootLayout.jsx";
 import SignUp from "./components/Authentication/Sign-up/SignUp.jsx";
 import Login from "./components/Authentication/Log-in/Login.jsx";
+import LinkTree from "./pages/LinkTree/LinkTree.jsx";
 function App() {
   return (
     <div className="wrapper">
@@ -24,6 +25,7 @@ function App() {
         <Route element={<Home />} path="/" />
         <Route index element={<SignUp />} path="/signup" />
         <Route index element={<Login />} path="/login" />
+        <Route index element={<LinkTree />} path="/:usernameParam" />
       </Routes>
     </div>
   );

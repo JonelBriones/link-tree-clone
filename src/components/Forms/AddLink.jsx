@@ -15,7 +15,6 @@ let socialMediaList = [
 const AddLink = ({
   onChangeHandler,
   onAppPlaceholder,
-  linkValid,
   onSubmitHandler,
   setToggleCreateURL,
   link,
@@ -51,11 +50,11 @@ const AddLink = ({
         <button
           type="submit"
           className={
-            linkValid && link.header.length > 0
+            link.url !== "" && link.header !== ""
               ? "circle-btn isValid"
               : "circle-btn"
           }
-          disabled={!linkValid && link.header == ""}
+          disabled={!link.url && link.header == ""}
         >
           Add
         </button>

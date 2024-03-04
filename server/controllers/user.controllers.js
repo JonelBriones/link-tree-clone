@@ -2,34 +2,48 @@
 import User from "../models/user.models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 async function register(req, res) {
-  console.log("creating user...", req.body.username);
+  console.log("creating user...", req.body);
+
+  // intitate a try catch block for sending validations errors
 
   const usernameExist = await User.findOne({ username: req.body.username });
 
-  if (usernameExist?.username == req.body.username) {
-    console.log(`Username: ${usernameExist.username} already taken!`);
-    return res.status(400).json({ message: "Username taken!" });
+  const emailExist = await User.findOne({ email: req.body.email });
+  let email = { message: "Email already in use!" };
+  let username = { message: "Username already in use!" };
+  if (usernameExist && emailExist) {
+    res.status(400).json({ email, username });
+  } else if (usernameExist) {
+    res.status(400).json({ username: username });
+  } else if (emailExist) {
+    res.status(400).json({ email: email });
+  } else {
+    try {
+      const user = await User.create(req.body);
+      // create token for user when logging in with authentication
+      const userToken = jwt.sign(
+        {
+          id: user._id,
+        },
+        process.env.SECRET_KEY
+      );
+      res
+        .cookie("usertoken", userToken, process.env.SECRET_KEY, {
+          httpOnly: true,
+          expires: new Date(Date.now() + 90000000),
+        })
+        .json({
+          message: "Successfully created user!",
+        });
+    } catch (err) {
+      console.log("SENDING ERRORS ON REGISTER");
+      res.status(400).json(err.errors);
+    }
   }
 
   // send requst to mongo to create new user
-  const user = await User.create(req.body);
-
-  // create token for user when logging in with authentication
-  const userToken = jwt.sign(
-    {
-      id: user._id,
-    },
-    process.env.SECRET_KEY
-  );
-  res
-    .cookie("usertoken", userToken, process.env.SECRET_KEY, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 90000000),
-    })
-    .json({
-      message: "Successfully created user!",
-    });
 }
 async function login(req, res) {
   const user = await User.findOne({ username: req.body.username });
@@ -85,7 +99,8 @@ async function updateLinks(req, res) {
       { links: req.body },
       {
         new: true,
-      }
+      },
+      { runValidators: true }
     );
     res.json({ message: "User successfully created!" });
   } catch (err) {
@@ -132,8 +147,22 @@ async function getUsers(req, res) {
     res.status(400).json(err);
   }
 }
+async function getUser(req, res) {
+  console.log("retrieving users...");
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    console.log("checking", req.body.username);
+    console.log("user found in db", user);
+    res.json(user);
+  } catch (err) {
+    console.log("couldnt retrieve user...", err);
+    res.status(400);
+    res.status(400).json(err);
+  }
+}
 
 export {
+  getUser,
   getUsers,
   updateLinks,
   updateLink,

@@ -17,7 +17,13 @@ const RootLayout = () => {
           </main>
         </div>
       ) : (
-        <Home />
+        // <Home />
+        <div>
+          {/* <NavbarAdmin /> */}
+          <main>
+            <Home />
+          </main>
+        </div>
       )}
 
       {/* use footer on welcome page */}

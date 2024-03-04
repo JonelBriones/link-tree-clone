@@ -10,14 +10,24 @@ import { FiBell } from "react-icons/fi";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { IoMdShareAlt } from "react-icons/io";
 import { UserContext } from "../../../context/UserContext";
+import axios from "axios";
 
 const NavbarAdmin = () => {
   const [currentPage, setCurrentPage] = useState("admin");
   const changePage = (param) => {
     setCurrentPage(param);
   };
-  const { user } = useContext(UserContext);
-
+  const { user, navigate, setUser, setUserLogged } = useContext(UserContext);
+  const logout = () => {
+    axios
+      .post("/api/logout")
+      .then((res) => {
+        navigate(0);
+        setUser({});
+        setUserLogged(false);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div>
       <nav>
@@ -81,7 +91,7 @@ const NavbarAdmin = () => {
               <span>Share</span>
             </button>
           </li>
-          <li className="nav-btns" onClick={() => console.log("logout")}>
+          <li className="nav-btns" onClick={logout}>
             <button className="profile">P</button>
           </li>
         </ul>

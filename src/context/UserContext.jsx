@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 export const UserContext = createContext("IJONEL906 ");
 const linkDefaultForm = {
   url: "",
@@ -9,6 +10,7 @@ const linkDefaultForm = {
 export const UserProvider = ({ children }) => {
   const navigate = useNavigate();
 
+  const [userLogged, setUserLogged] = useState(null);
   const [user, setUser] = useState(null);
   const [links, setLinks] = useState([]);
   const [link, setLink] = useState(linkDefaultForm);
@@ -16,19 +18,17 @@ export const UserProvider = ({ children }) => {
   const [toggleCreateURL, setToggleCreateURL] = useState(false);
 
   // EDIT CHANGE
-
   useEffect(() => {
     axios
-      .get(`/api/users`)
+      .get(`/api/user`, { withCredentials: true })
       .then((res) => {
-        const user = res.data[0];
-        setUser(user);
-        setLinks(user.links);
+        setUser(res.data);
+        setLinks(res.data.links);
       })
       .catch((err) => {
-        console.log(err.res);
+        console.log(err);
       });
-  }, []);
+  }, [userLogged]);
 
   useEffect(() => {
     setLinkValid(
@@ -41,13 +41,14 @@ export const UserProvider = ({ children }) => {
     setLink(newLink);
   };
   const onAppPlaceholder = (social) => {
-    let url = `https://www.${social}.com/@${user.username}`;
+    let url = `https://www.${social}.com/${user.username}`;
     setLink({ ...link, url: url });
   };
   const onSubmitHandler = (e) => {
-    if (!linkValid) return;
+    // if (!linkValid) return;
     e.preventDefault();
     let updatedLinks = [...links, link];
+
     axios
       .put(`/api/create/link/${user._id}`, updatedLinks)
       .then((res) => {
@@ -72,12 +73,13 @@ export const UserProvider = ({ children }) => {
       .catch((err) => console.log("UPDATE FAILED", err));
   };
   const login = () => {};
-  const logout = () => {};
 
   return (
     <UserContext.Provider
       value={{
         user,
+        userLogged,
+        setUserLogged,
         onChangeHandler,
         onAppPlaceholder,
         onSubmitHandler,
@@ -87,6 +89,8 @@ export const UserProvider = ({ children }) => {
         setToggleCreateURL,
         links,
         link,
+        navigate,
+        setUser,
       }}
     >
       {children}

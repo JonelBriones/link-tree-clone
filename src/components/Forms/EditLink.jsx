@@ -39,10 +39,13 @@ const EditLink = (props) => {
 
   const onSubmitEditHandler = (e) => {
     e.preventDefault();
-    let linkValid =
-      updateLink.url?.includes("/@") &&
-      updateLink.url[updateLink.url.length - 1] !== "@";
-    if (!linkValid || updateLink.header == "") return;
+    if (updateLink.header == header && headerEditToggle) return;
+    if (updateLink.url == url && urlEditToggle) return;
+    // let linkValid =
+    //   updateLink.url?.includes("/@") &&
+    //   updateLink.url[updateLink.url.length - 1] !== "@";
+    if (updateLink.url == "" || updateLink.header == "") return;
+    console.log("submit");
 
     axios
       .patch(`/api/update/link/${_id}`, { ...updateLink, _id: _id })
