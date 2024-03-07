@@ -9,7 +9,7 @@ let socialMediaList = [
   "x",
   "reddit",
   "snapchat",
-  "youtube",
+  "@youtube",
 ];
 
 const AddLink = ({
@@ -18,13 +18,14 @@ const AddLink = ({
   onSubmitHandler,
   setToggleCreateURL,
   link,
+  resetForm,
 }) => {
   return (
     <div className="create-link">
       <div>
         <button className="create-link-cancel-btn">
           <RxCross2
-            onClick={() => setToggleCreateURL(false)}
+            onClick={() => resetForm()}
             size={"1.25rem"}
             className="cancel-btn"
           />
@@ -54,7 +55,7 @@ const AddLink = ({
               ? "circle-btn isValid"
               : "circle-btn"
           }
-          disabled={!link.url && link.header == ""}
+          disabled={link.url == "" || link.header == ""}
         >
           Add
         </button>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext("IJONEL906 ");
 const linkDefaultForm = {
-  url: "",
+  url: "https://",
   header: "",
 };
 export const UserProvider = ({ children }) => {
@@ -30,11 +30,11 @@ export const UserProvider = ({ children }) => {
       });
   }, [userLogged]);
 
-  useEffect(() => {
-    setLinkValid(
-      link.url?.includes("/@") && link.url[link.url.length - 1] !== "@"
-    );
-  }, [link.url]);
+  const resetForm = () => {
+    setToggleCreateURL(false);
+    setLink(linkDefaultForm);
+  };
+
   const onChangeHandler = (e) => {
     const newLink = { ...link };
     newLink[e.target.name] = e.target.value;
@@ -45,7 +45,7 @@ export const UserProvider = ({ children }) => {
     setLink({ ...link, url: url });
   };
   const onSubmitHandler = (e) => {
-    // if (!linkValid) return;
+    if (link.header == "" || link.url == "") return;
     e.preventDefault();
     let updatedLinks = [...links, link];
 
@@ -91,6 +91,7 @@ export const UserProvider = ({ children }) => {
         link,
         navigate,
         setUser,
+        resetForm,
       }}
     >
       {children}

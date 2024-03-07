@@ -15,7 +15,7 @@ const Links = () => {
     onAppPlaceholder,
     onSubmitHandler,
     onDeleteLinkHandler,
-
+    resetForm,
     toggleCreateURL,
     setToggleCreateURL,
     links,
@@ -37,11 +37,11 @@ const Links = () => {
               <p>
                 Your Linktree is live:{" "}
                 <Link
-                  to={`https://linktr.ee/${linktreeURL}`}
+                  to={`/${user.username}`}
                   target="_blank"
                   className="url-link"
                 >
-                  linktr.ee/{linktreeURL}
+                  linktr.ee/{user.username}
                 </Link>
               </p>
               <p>Share your Linktree to your socials</p>
@@ -68,6 +68,7 @@ const Links = () => {
                 onChangeHandler={onChangeHandler}
                 onSubmitHandler={onSubmitHandler}
                 link={link}
+                resetForm={resetForm}
                 onAppPlaceholder={onAppPlaceholder}
               />
             </div>
